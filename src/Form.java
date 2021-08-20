@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Form extends JFrame implements ActionListener, ItemListener {
     private JLabel labelMTIC_, labelUTP_, labelName_;
-    private JButton buttonHello_, buttonGreetings_;
+    private JButton buttonHello_, buttonGreetings_, buttonAdd_, buttonRemove_;
     private JTextField fieldName_;
     private JTextArea areaInfo_;
     private JScrollPane scrollInfo_;
@@ -45,9 +45,21 @@ public class Form extends JFrame implements ActionListener, ItemListener {
         
         buttonGreetings_ = new JButton("Say Hi");
         buttonGreetings_.setBounds(190, 200, 70, 25);
-        // where is the listener can be found?
+        // where the listener can be found?
         buttonGreetings_.addActionListener(this);
         add(buttonGreetings_);
+        
+        buttonAdd_ = new JButton("Add");
+        buttonAdd_.setBounds(190, 235, 70, 25);
+        // where the listener can be found?
+        buttonAdd_.addActionListener(this);
+        add(buttonAdd_);
+        
+        buttonRemove_ = new JButton("Remove");
+        buttonRemove_.setBounds(270, 235, 81, 25);
+        // where the listener can be found?
+        buttonRemove_.addActionListener(this);
+        add(buttonRemove_);
 
         fieldName_ = new JTextField();
         fieldName_.setBounds(10, 200, 170, 25);
@@ -103,6 +115,23 @@ public class Form extends JFrame implements ActionListener, ItemListener {
             tempLbl.setBounds(0, 0, 0, 0);
             tempDlg.setVisible(true);
             tempDlg.add(tempLbl);
+        }
+
+        if(e.getSource() == buttonAdd_)
+        {
+            if (fieldName_.getText().length() == 0) {
+                System.out.println("Not valid");
+                return;
+            }
+            // repeated names should be ignored?
+            comboNames_.addItem(fieldName_.getText());
+        }
+        
+        if(e.getSource() == buttonRemove_)
+        {
+            String name = comboNames_.getSelectedItem().toString();
+            comboNames_.removeItem(name);
+            fieldName_.setText(name);
         }
     }
 
