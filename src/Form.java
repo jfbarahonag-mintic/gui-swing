@@ -1,4 +1,5 @@
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,13 +11,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class Form extends JFrame implements ActionListener, ItemListener {
+public class Form extends JFrame implements ActionListener, ItemListener, ChangeListener {
+
     private JLabel labelMTIC_, labelUTP_, labelName_;
     private JButton buttonHello_, buttonGreetings_, buttonAdd_, buttonRemove_;
     private JTextField fieldName_;
@@ -28,6 +32,7 @@ public class Form extends JFrame implements ActionListener, ItemListener {
     private JMenuBar menuBar_;
     private JMenuItem menuItemSizeDefault_, menuItemSize640_480_, menuItemSize1024_768_;
     private JMenuItem menuItemColorDefault_, menuItemColorRed_, menuItemColorBlue_;
+    private JCheckBox chBoxDisable_;
 
     private int defaultWidth_, defaultHeight_;
     private Color defaultBg_;
@@ -145,6 +150,11 @@ public class Form extends JFrame implements ActionListener, ItemListener {
         menuBgColor_.add(menuItemColorBlue_);
         menuBgColor_.add(menuItemColorRed_);
         menuBgColor_.add(menuItemColorDefault_);
+
+        chBoxDisable_ = new JCheckBox("Disable Add/Remove");
+        chBoxDisable_.setBounds(10, 265, 150, 20);
+        chBoxDisable_.addChangeListener(this);
+        add(chBoxDisable_);
     }
 
     /* buttons menuItems */
@@ -221,6 +231,16 @@ public class Form extends JFrame implements ActionListener, ItemListener {
             String name = comboNames_.getSelectedItem().toString();
             setTitle(name);
         }
-        
+    }
+
+    /* checkbox */
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if(e.getSource() == chBoxDisable_)
+        {
+            boolean enable = chBoxDisable_.isSelected() == true ? false : true; 
+            buttonAdd_.setEnabled(enable);
+            buttonRemove_.setEnabled(enable);
+        }
     }
 }
