@@ -3,11 +3,15 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -20,11 +24,24 @@ public class Form extends JFrame implements ActionListener, ItemListener {
     private JScrollPane scrollInfo_;
     private JComboBox<String> comboNames_;
     private ArrayList<String> names_;
+    private JMenu menuSize_, menuBgColor_;
+    private JMenuBar menuBar_;
+    private JMenuItem menuItemSizeDefault_, menuItemSize640_480_, menuItemSize1024_768_;
+    private JMenuItem menuItemColorDefault_, menuItemColorRed_, menuItemColorBlue_;
 
-    public Form()
+    private int defaultWidth_, defaultHeight_;
+    private Color defaultBg_;
+
+    public Form(int width, int height)
     {
         // establish all components needed
         setLayout(null);
+
+        setBounds(0, 0, width, height);
+
+        defaultHeight_ = getHeight();
+        defaultWidth_ = getWidth();
+        defaultBg_ = getBackground();
         
         labelMTIC_ = new JLabel("Mision TIC 2022");
         labelMTIC_.setBounds(10,20, 300, 30);
@@ -93,9 +110,44 @@ public class Form extends JFrame implements ActionListener, ItemListener {
         }
         comboNames_.addItemListener(this);
         add(comboNames_);
+        /**
+         * menuBar[menu{menuItem}]
+         */
+        menuBar_ = new JMenuBar();
+        setJMenuBar(menuBar_);
+        /* ----------Sizes---------- */
+        menuSize_ = new JMenu("Sizes");
+        menuBar_.add(menuSize_);
+
+        menuItemSize640_480_ = new JMenuItem("640*680");
+        menuItemSize1024_768_ = new JMenuItem("1024*768");
+        menuItemSizeDefault_ = new JMenuItem("Default");
+        
+        menuItemSize640_480_.addActionListener(this);
+        menuItemSize1024_768_.addActionListener(this);
+        menuItemSizeDefault_.addActionListener(this);
+        
+        menuSize_.add(menuItemSize640_480_);
+        menuSize_.add(menuItemSize1024_768_);
+        menuSize_.add(menuItemSizeDefault_);
+        /* ----------Color---------- */
+        menuBgColor_ = new JMenu("Color");
+        menuBar_.add(menuBgColor_);
+
+        menuItemColorBlue_ = new JMenuItem("Blue");
+        menuItemColorRed_ = new JMenuItem("Red");
+        menuItemColorDefault_ = new JMenuItem("Default");
+
+        menuItemColorBlue_.addActionListener(this);
+        menuItemColorRed_.addActionListener(this);
+        menuItemColorDefault_.addActionListener(this);
+
+        menuBgColor_.add(menuItemColorBlue_);
+        menuBgColor_.add(menuItemColorRed_);
+        menuBgColor_.add(menuItemColorDefault_);
     }
 
-    /* buttons */
+    /* buttons menuItems */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonHello_)
@@ -134,6 +186,30 @@ public class Form extends JFrame implements ActionListener, ItemListener {
             String name = comboNames_.getSelectedItem().toString();
             comboNames_.removeItem(name);
             fieldName_.setText(name);
+        }
+
+        if (e.getSource() == menuItemSize640_480_) {
+            setSize(640, 480);
+        }
+        
+        if (e.getSource() == menuItemSize1024_768_) {
+            setSize(1024, 768);
+        }
+        
+        if (e.getSource() == menuItemSizeDefault_) {
+            setSize(defaultWidth_, defaultHeight_);
+        }
+
+        if(e.getSource() == menuItemColorBlue_) {
+            getContentPane().setBackground(new Color(0, 0, 255));
+        }
+        
+        if(e.getSource() == menuItemColorRed_) {
+            getContentPane().setBackground(new Color(255, 0, 0));
+        }
+        
+        if(e.getSource() == menuItemColorDefault_) {
+            getContentPane().setBackground(defaultBg_);
         }
     }
 
