@@ -1,4 +1,5 @@
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,13 +9,17 @@ import javax.swing.JTextField;
 
 import java.awt.Font;
 import java.awt.event.*;
+import java.util.ArrayList;
 
-public class Form extends JFrame implements ActionListener {
+public class Form extends JFrame implements ActionListener, ItemListener {
     private JLabel labelMTIC_, labelUTP_, labelName_;
     private JButton buttonHello_, buttonGreetings_;
     private JTextField fieldName_;
     private JTextArea areaInfo_;
     private JScrollPane scrollInfo_;
+    private JComboBox<String> comboNames_;
+    private ArrayList<String> names_;
+
     public Form()
     {
         // establish all components needed
@@ -57,10 +62,27 @@ public class Form extends JFrame implements ActionListener {
         +"Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus suscipit tortor eget felis porttitor volutpat. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.\n"
         +"Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur aliquet quam id dui posuere blandit. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur aliquet quam id dui posuere blandit. Nulla quis lorem ut libero malesuada feugiat.\n"
         +"Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Proin eget tortor risus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Nulla quis lorem ut libero malesuada feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Pellentesque in ipsum id orci porta dapibus. Nulla porttitor accumsan tincidunt. Proin eget tortor risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-        
         add(scrollInfo_);
+
+        names_ = new ArrayList<String>();
+        names_.add("Viviana");
+        names_.add("Felipe");
+        names_.add("Teresa");
+        names_.add("Carolina");
+        names_.add("Carlos");
+        names_.add("Emiliano");
+
+        comboNames_ = new JComboBox<String>();
+        comboNames_.setBounds(10, 235, 80, 20);
+        // fill the combobox
+        for (String name : names_) {
+            comboNames_.addItem(name);
+        }
+        comboNames_.addItemListener(this);
+        add(comboNames_);
     }
 
+    /* buttons */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonHello_)
@@ -82,5 +104,15 @@ public class Form extends JFrame implements ActionListener {
             tempDlg.setVisible(true);
             tempDlg.add(tempLbl);
         }
+    }
+
+    /* comboboxes */
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == comboNames_) {
+            String name = comboNames_.getSelectedItem().toString();
+            setTitle(name);
+        }
+        
     }
 }
