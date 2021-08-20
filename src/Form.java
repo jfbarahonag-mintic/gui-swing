@@ -179,6 +179,7 @@ public class Form extends JFrame implements ActionListener, ItemListener {
             }
             // repeated names should be ignored?
             comboNames_.addItem(fieldName_.getText());
+            fieldName_.setText("");
         }
         
         if(e.getSource() == buttonRemove_)
