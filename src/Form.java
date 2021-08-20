@@ -3,6 +3,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -120,7 +121,8 @@ public class Form extends JFrame implements ActionListener, ItemListener {
         if(e.getSource() == buttonAdd_)
         {
             if (fieldName_.getText().length() == 0) {
-                System.out.println("Not valid");
+                System.out.println("Not valid name");
+                JOptionPane.showMessageDialog(this, "Not valid", "Add issue", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // repeated names should be ignored?
